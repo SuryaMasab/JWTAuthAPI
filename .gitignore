@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/JwtAuthentication.Api/FileContentIndex
+/Authentication.Domain/bin/Debug/net8.0
+/Authentication.Domain/obj
+/JwtAuthentication.Api/bin/Debug/net8.0
+/JwtAuthentication.Api/obj
+/JwtAuthentication.Infrastructure/bin/Debug/net8.0
+/JwtAuthentication.Infrastructure/obj
+/.vs/JwtAuthentication.Api/v17
+/.vs/JwtAuthentication.Api/config
