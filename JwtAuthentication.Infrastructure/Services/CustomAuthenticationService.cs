@@ -28,19 +28,19 @@ public class CustomAuthenticationService : ICustomAuthenticationService
         _userRepository = userRepository;
     }
 
-    public bool ValidateUser(User user)
+    public User? ValidateUser(User user)
     {
         var validateUser = _userRepository.GetUser(user.Email);
         if (validateUser == null)
         {
-            return false;
+            return null;
         }
 
         if (validateUser.Password != user.Password)
         {
-            return false;
-        }
-        return true;
+            return null;
+        }        
+        return validateUser;
     }
     public string GenerateToken(User validUser)
     {
@@ -50,7 +50,8 @@ public class CustomAuthenticationService : ICustomAuthenticationService
                 new Claim(JwtRegisteredClaimNames.Sub,jwtSubject),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(nameof(User.Email),validUser.Email), // these are the claims validated in the ValidateToken method
-                new Claim(nameof(User.Name),validUser.Name)
+                new Claim(nameof(User.Name),validUser.Name),
+                new Claim(nameof(User.IsMobileUser),validUser.IsMobileUser.ToString().ToLower()),                
             };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecurityKey));
