@@ -36,6 +36,7 @@ public class UserRepository :IUserRepository
     private static List<User> FillUsers()
     {
         // fill some static set of Users
+        // or bind DB data here via DBContext
         return
         [
             new() {
@@ -44,6 +45,7 @@ public class UserRepository :IUserRepository
                 Password= "123456",
                 Latitude = 12.9716,
                 Longitude = 77.5946,
+                IsMobileUser = true
             },
             new() {
                 Name = "UserTwo",
@@ -51,6 +53,7 @@ public class UserRepository :IUserRepository
                 Password= "123456",
                 Latitude = 11.9716,
                 Longitude = 67.5946,
+                IsMobileUser = false
             }
         ];
     }

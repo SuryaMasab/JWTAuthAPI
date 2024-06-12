@@ -15,4 +15,6 @@ public class User
 
     public double Longitude { get; set; }
 
+    public bool IsMobileUser { get; set; }
+
 }

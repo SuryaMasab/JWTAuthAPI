@@ -37,12 +37,12 @@ namespace JwtAuthentication.Api.Controllers
                     Email = request.UserId,
                     Password = request.Password
                 };
-                var isAValidUser = _customAuthService.ValidateUser(user);
+                var loggedInUser = _customAuthService.ValidateUser(user);
 
-                if (isAValidUser)
+                if (loggedInUser!=null)
                 {
                     //Generate Token
-                    var token = _customAuthService.GenerateToken(user);
+                    var token = _customAuthService.GenerateToken(loggedInUser);
                     return Ok(new { token });
                 }
 
@@ -55,9 +55,9 @@ namespace JwtAuthentication.Api.Controllers
         [HttpPost]
         [Route("validate")]
         // [Authorize]
-        public IActionResult ValidateUserToken(ValidateRequest request)
+        public IActionResult ValidateMobileUserToken(ValidateRequest request)
         {
-            //validate token signature and claims and return Ok() if valid
+            //validate token signature and claims
 
             try
             {
@@ -68,10 +68,17 @@ namespace JwtAuthentication.Api.Controllers
                     return Ok(new { isValid = false });
                 }
 
-                // Check required claims
-                var claimsValid = request.Claims.All(claim => principal.HasClaim(c => c.Type == claim));
+                var claims = principal.Claims;
+                if (claims == null)
+                {
+                    return Ok(new { isValid = false });
+                }
+                else
+                {
+                    var isAMobileUser = claims.Any(c => c.Type == nameof(JwtAuthentication.Domain.User.IsMobileUser) && c.Value == "true");
 
-                return Ok(new { isValid = claimsValid });
+                    return Ok(new { isValid = isAMobileUser });
+                } 
             }
             catch
             {
