@@ -2,6 +2,7 @@ using Authentication.Domain;
 using JwtAuthentication.Api.Helpers;
 using JwtAuthentication.Domain;
 using JwtAuthentication.Infrastructure.Services.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JwtAuthentication.Api.Controllers
@@ -84,6 +85,14 @@ namespace JwtAuthentication.Api.Controllers
             {
                 return Ok(new { isValid = false });
             }
+        }
+
+        [HttpGet]
+        [Route("test")]
+        [Authorize]
+        public IActionResult GetUsers()
+        {
+            return Ok("test end point accessed!");
         }
 
 

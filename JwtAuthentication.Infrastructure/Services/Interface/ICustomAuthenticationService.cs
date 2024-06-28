@@ -10,7 +10,7 @@ namespace JwtAuthentication.Infrastructure.Services.Interface;
 
 public interface ICustomAuthenticationService
 {
-    public User ValidateUser(User user);
+    public User? ValidateUser(User user);
     public string GenerateToken(User validUser);
     public ClaimsPrincipal? ValidateToken(string token);
 }

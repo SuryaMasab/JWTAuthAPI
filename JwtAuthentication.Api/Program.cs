@@ -17,6 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //JWT Authentication settings Step 2 
+//Configured values are read from the appsettings.json file
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -34,12 +36,11 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtToken:Key"] ?? throw new ArgumentNullException("Invalid key")))
     };
 });
-
-//builder.Services.AddAuthorization(); //Step 7 
+ 
 //Application Specific Settings
 ConfigureApplicationSpecificSettings(builder);
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(); //Step 3
 
 //Adding the services to the DIcontainer
 builder.Services.AddScoped<ICustomAuthenticationService, CustomAuthenticationService>();
@@ -48,7 +49,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 var app = builder.Build();
 
 //configure the authentication middleware
-app.UseAuthentication();  //Step5: 
+app.UseAuthentication();  //Step4: 
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -59,7 +62,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthorization(); //step 5
 
 app.MapControllers();
 
